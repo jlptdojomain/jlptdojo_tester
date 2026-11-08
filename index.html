@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLPT Dojo — Early Access Testers</title>
+<meta name="description" content="Welcome, testers! Thank you for joining the JLPT Dojo early access program.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.png">
+<style>
+:root{--n5:#2f9e63;--n4:#3a87c8;--n3:#a8821a;--n2:#d2691e;--n1:#c0392b;--bg:#faf9f7;--surface:#fff;--ink:#1d1d1f;--muted:#6d7076;--line:#e5e2dc;}
+@media (prefers-color-scheme:dark){:root{--bg:#15171b;--surface:#1c1f24;--ink:#e6e4e0;--muted:#8f939c;--line:#2b2f36}}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:clamp(24px,6vw,64px) 16px}
+.card{width:min(640px,100%);background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:clamp(28px,6vw,56px);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.08)}
+.card>img{width:clamp(80px,22vw,112px);margin:0 auto 20px;border-radius:24px;display:block}
+.tag{display:inline-block;background:var(--n5);color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 14px;border-radius:999px;margin-bottom:16px}
+h1{font-size:clamp(1.9rem,6vw,3rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:14px}
+h1 span{color:var(--n5)}
+.lead{color:var(--muted);font-size:clamp(1rem,2.4vw,1.15rem);margin-bottom:24px}
+.play{display:inline-flex;align-items:center;gap:12px;background:#000;color:#fff;text-decoration:none;padding:10px 22px 10px 16px;border-radius:12px;border:1px solid #a6a6a6;transition:transform .15s}
+.play:hover{transform:translateY(-2px)}
+.play svg{width:30px;height:30px;flex:none}
+.play small{display:block;font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;line-height:1.1;text-align:left}
+.play strong{display:block;font-size:1.35rem;line-height:1.1;font-weight:600}
+.note{color:var(--muted);font-size:.85rem;margin-top:16px}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:20px 16px 32px}
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <img src="icon.png" alt="JLPT Dojo app icon">
+    <div class="tag">Early Access</div>
+    <h1>Welcome, <span>testers!</span></h1>
+    <p class="lead">Thank you for being part of the JLPT Dojo early access program. Your feedback helps make the app better for every Japanese learner.</p>
+    <a class="play" href="https://play.google.com/apps/testing/com.charnyladaro.jlptdojo" target="_blank" rel="noopener" aria-label="Download the test app on Google Play">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M3.6 1.8 13.8 12 3.6 22.2c-.4-.2-.6-.6-.6-1.1V2.9c0-.5.2-.9.6-1.1z"/><path fill="#FBBC04" d="m17.2 8.6 3.4 2c.9.5.9 1.8 0 2.3l-3.4 2L13.8 12z"/><path fill="#4285F4" d="M3.6 1.8c.3-.2.8-.2 1.2 0l12.4 6.8-3.4 3.4z"/><path fill="#EA4335" d="m13.8 12 3.4 3.4-12.4 6.8c-.4.2-.9.2-1.2 0z"/></svg>
+      <span><small>Download the test app on</small><strong>Google Play</strong></span>
+    </a>
+    <p class="note">Sign in to Google Play with the same Google account you used to sign up as a tester.</p>
+  </div>
+</main>
+<footer>© 2026 Charnyl Adaro · JLPT 道場</footer>
+</body>
+</html>
