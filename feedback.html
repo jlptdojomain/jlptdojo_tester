@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLPT Dojo — Tester Feedback</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.png">
+<style>
+:root{--n5:#2f9e63;--n4:#3a87c8;--n1:#c0392b;--bg:#faf9f7;--surface:#fff;--ink:#1d1d1f;--muted:#6d7076;--line:#e5e2dc;--field:#fbfaf8}
+@media (prefers-color-scheme:dark){:root{--bg:#15171b;--surface:#1c1f24;--ink:#e6e4e0;--muted:#8f939c;--line:#2b2f36;--field:#23262c}}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+main{width:min(680px,100% - 32px);margin:clamp(20px,5vw,48px) auto}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,5vw,40px);box-shadow:0 20px 50px rgba(0,0,0,.06)}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.top img{width:44px;height:44px;border-radius:12px}
+h1{font-size:clamp(1.5rem,4.5vw,2rem)}
+.sub{color:var(--muted);margin-bottom:24px}
+label{display:block;font-weight:600;font-size:.92rem;margin:18px 0 6px}
+label small{font-weight:400;color:var(--muted)}
+input,textarea,select{width:100%;font:inherit;color:inherit;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+input:focus,textarea:focus{outline:2px solid var(--n5);outline-offset:1px}
+textarea{min-height:120px;resize:vertical}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:8px}
+.types input{position:absolute;opacity:0;pointer-events:none}
+.types label{margin:0;padding:12px;border:1px solid var(--line);border-radius:12px;text-align:center;cursor:pointer;background:var(--field);font-weight:600}
+.types input:checked+label{border-color:var(--n5);background:color-mix(in srgb,var(--n5) 14%,transparent)}
+.types input:focus-visible+label{outline:2px solid var(--n5)}
+.row{display:grid;gap:0 14px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);cursor:pointer}
+.drop:hover{border-color:var(--n5)}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.thumbs div{position:relative}
+.thumbs img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.thumbs button{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;border:0;background:var(--n1);color:#fff;cursor:pointer;line-height:1}
+.hp{position:absolute;left:-9999px}
+.send{margin-top:26px;width:100%;padding:15px;border:0;border-radius:14px;background:var(--n5);color:#fff;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer}
+.send:disabled{opacity:.6;cursor:wait}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;display:none}
+.msg.ok{display:block;background:color-mix(in srgb,var(--n5) 15%,transparent)}
+.msg.err{display:block;background:color-mix(in srgb,var(--n1) 15%,transparent)}
+.back{display:inline-block;margin-top:18px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<form class="card" id="f" novalidate>
+  <div class="top"><img src="icon.png" alt=""><h1>Tester Feedback</h1></div>
+  <p class="sub">Found a bug, saw an error or have an idea? Tell us — every report helps.</p>
+
+  <label>What kind of feedback?</label>
+  <div class="types">
+    <input type="radio" name="type" id="t1" value="Bug" checked><label for="t1">🐞 Bug</label>
+    <input type="radio" name="type" id="t2" value="Error / crash"><label for="t2">⚠️ Error / crash</label>
+    <input type="radio" name="type" id="t3" value="Suggestion"><label for="t3">💡 Suggestion</label>
+    <input type="radio" name="type" id="t4" value="General feedback"><label for="t4">💬 Feedback</label>
+  </div>
+
+  <label for="title">Title</label>
+  <input id="title" name="title" maxlength="200" required placeholder="e.g. Kana quiz freezes after 10 questions">
+
+  <label for="description">Details</label>
+  <textarea id="description" name="description" maxlength="5000" required placeholder="What happened? What did you expect?"></textarea>
+
+  <label for="steps">Steps to reproduce <small>(optional, for bugs/errors)</small></label>
+  <textarea id="steps" name="steps" maxlength="3000" style="min-height:90px" placeholder="1. Open Kana&#10;2. Start writing practice&#10;3. …"></textarea>
+
+  <label>Screenshots <small>(optional, up to 3)</small></label>
+  <div class="drop" id="drop" tabindex="0" role="button">📷 Tap to add screenshots</div>
+  <input type="file" id="file" accept="image/*" multiple hidden>
+  <div class="thumbs" id="thumbs"></div>
+
+  <div class="row">
+    <div><label for="device">Device &amp; Android version <small>(optional)</small></label><input id="device" name="device" maxlength="200" placeholder="e.g. Pixel 7, Android 15"></div>
+    <div><label for="appVersion">App version <small>(optional)</small></label><input id="appVersion" name="appVersion" maxlength="50" placeholder="e.g. 1.0.0"></div>
+  </div>
+  <div class="row">
+    <div><label for="name">Name <small>(optional)</small></label><input id="name" name="name" maxlength="100"></div>
+    <div><label for="email">Email <small>(optional, if you'd like a reply)</small></label><input id="email" name="email" type="email" maxlength="200"></div>
+  </div>
+  <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+  <button class="send" id="send">Send feedback</button>
+  <div class="msg" id="msg" role="status"></div>
+  <a class="back" href="index.html">← Back to tester page</a>
+</form>
+</main>
+<script>
+// Paste your Apps Script Web app URL here (see tester/FEEDBACK-SETUP.md)
+const ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+const $ = id => document.getElementById(id);
+let shots = [];
+
+const shrink = file => new Promise((res, rej) => {
+  const img = new Image(), url = URL.createObjectURL(file);
+  img.onload = () => {
+    const s = Math.min(1, 1600 / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(url);
+    res(c.toDataURL('image/jpeg', 0.85));
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); rej(); };
+  img.src = url;
+});
+
+const draw = () => {
+  $('thumbs').innerHTML = '';
+  shots.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.innerHTML = `<img src="${s}" alt="Screenshot ${i + 1}"><button type="button" aria-label="Remove">×</button>`;
+    d.querySelector('button').onclick = () => { shots.splice(i, 1); draw(); };
+    $('thumbs').append(d);
+  });
+  $('drop').style.display = shots.length >= 3 ? 'none' : '';
+};
+
+const add = async files => {
+  for (const f of [...files].filter(f => f.type.startsWith('image/'))) {
+    if (shots.length >= 3) break;
+    try { shots.push(await shrink(f)); } catch { }
+  }
+  draw();
+};
+
+$('drop').onclick = () => $('file').click();
+$('drop').onkeydown = e => (e.key === 'Enter' || e.key === ' ') && $('file').click();
+$('file').onchange = e => { add(e.target.files); e.target.value = ''; };
+['dragover', 'drop'].forEach(ev => $('drop').addEventListener(ev, e => {
+  e.preventDefault(); if (ev === 'drop') add(e.dataTransfer.files);
+}));
+document.addEventListener('paste', e => add([...e.clipboardData.items].map(i => i.getAsFile()).filter(Boolean)));
+
+const show = (t, cls) => { $('msg').textContent = t; $('msg').className = 'msg ' + cls; };
+
+$('f').onsubmit = async e => {
+  e.preventDefault();
+  const f = new FormData($('f'));
+  if (!f.get('title').trim() || !f.get('description').trim()) return show('Please add a title and details.', 'err');
+  if (ENDPOINT.startsWith('PASTE')) return show('Feedback form is not connected yet.', 'err');
+  const data = Object.fromEntries(f);
+  data.screenshots = shots.map(s => ({ data: s }));
+  $('send').disabled = true; $('send').textContent = 'Sending…'; show('', '');
+  try {
+    // text/plain avoids a CORS preflight, which Apps Script does not answer
+    const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error);
+    $('f').reset(); shots = []; draw();
+    show('Thank you! Your feedback was sent. ありがとう！', 'ok');
+  } catch (err) {
+    show((err && err.message) || 'Could not send. Check your connection and try again.', 'err');
+  } finally {
+    $('send').disabled = false; $('send').textContent = 'Send feedback';
+  }
+};
+</script>
+</body>
+</html>
